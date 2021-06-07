@@ -51,7 +51,49 @@ public class UserControllerTest {
                     .body(userForCreate)
                 .when().post("/users")
                 .then().statusCode(HttpStatus.OK.value());
+    }
 
+    @Test
+    public void testCreateNotUserWithoutEmail_ReturnBadRequest() {
+        User userForCreate = User.builder()
+                .name("Luiz Fernandes de Oliveira")
+                .password("luiz123").build();
+
+        RestAssuredMockMvc
+                .given().auth().none()
+                .contentType(ContentType.JSON)
+                .body(userForCreate)
+                .when().post("/users")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testCreateNotUserWithoutName_ReturnBadRequest() {
+        User userForCreate = User.builder()
+                .email("luizfernandesoliveiraoficial@gmail.com")
+                .password("luiz123").build();
+
+        RestAssuredMockMvc
+                .given().auth().none()
+                .contentType(ContentType.JSON)
+                .body(userForCreate)
+                .when().post("/users")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void testCreateNotUserWithoutPassword_ReturnBadRequest() {
+        User userForCreate = User.builder()
+                .name("Luiz Fernandes de Oliveira")
+                .email("luizfernandesoliveiraoficial@gmail.com")
+                .build();
+
+        RestAssuredMockMvc
+                .given().auth().none()
+                .contentType(ContentType.JSON)
+                .body(userForCreate)
+                .when().post("/users")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
 }
