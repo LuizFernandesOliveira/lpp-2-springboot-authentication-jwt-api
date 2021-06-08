@@ -2,6 +2,7 @@ package com.authentication.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +39,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Message> InstanceAlreadyExists(InstanceAlreadyExistsException e) {
         String message = e.getMessage();
         return response(message, HttpStatus.ALREADY_REPORTED);
+    }
+
+    @ExceptionHandler(value = { InternalAuthenticationServiceException.class })
+    public ResponseEntity<Message> InternalAuthenticationService(InternalAuthenticationServiceException e) {
+        String message = e.getMessage();
+        return response(message, HttpStatus.BAD_REQUEST);
     }
 
 }
