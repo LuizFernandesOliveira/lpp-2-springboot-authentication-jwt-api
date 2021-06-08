@@ -1,8 +1,12 @@
 package com.authentication.integrations;
 
+import com.authentication.config.jwt.JwtFilter;
 import com.authentication.controllers.UserController;
 import com.authentication.models.User;
+import com.authentication.repositories.UserRepository;
+import com.authentication.services.UserDetailsServiceImpl;
 import com.authentication.services.UserService;
+import com.authentication.utils.JwtUtil;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +19,7 @@ import org.springframework.http.HttpStatus;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
 
-@WebMvcTest
+@WebMvcTest(UserController.class)
 public class UserControllerTest {
 
     @Autowired
@@ -23,6 +27,18 @@ public class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private UserRepository userRepository;
+
+    @MockBean
+    private JwtFilter jwtFilter;
+
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
+
+    @MockBean
+    private JwtUtil jwtUtil;
 
     @BeforeEach
     public void setup() {

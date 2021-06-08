@@ -1,34 +1,28 @@
 package com.authentication.controllers;
 
+import com.authentication.services.AuthService;
 import com.authentication.utils.AccountCredentials;
-import com.authentication.utils.JwtUtil;
+import com.authentication.utils.Token;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @AllArgsConstructor
 public class AuthController {
-    private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
+
+    private final AuthService authService;
 
     @PostMapping(path = "/token")
-    public String generateToken(@RequestBody AccountCredentials credentials) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            credentials.getEmail(),
-                            credentials.getPassword()));
+    public ResponseEntity<Token> generateToken(@RequestBody AccountCredentials credentials) {
 
-        } catch (Exception e) {
-            throw new Exception("Invalidate email or passowrd");
-        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(authService.generateToken(credentials));
 
-        return jwtUtil.generateToken(credentials.getEmail());
     }
 
 }
