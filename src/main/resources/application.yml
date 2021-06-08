@@ -4,10 +4,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   datasource:
     username: postgres
     password: 291197
-    url: jdbc:postgresql://localhost:5432/authuser
+    url: jdbc:postgresql://localhost:5432/auth_user
 server:
   port: 3333
