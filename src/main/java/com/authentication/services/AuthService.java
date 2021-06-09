@@ -21,8 +21,6 @@ public class AuthService {
     }
 
     public Token generateToken(AccountCredentials credentials) {
-        System.out.println("=======================Entrou no service");
-
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
