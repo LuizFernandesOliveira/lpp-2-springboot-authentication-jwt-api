@@ -3,7 +3,6 @@ package com.authentication.services;
 import com.authentication.utils.AccountCredentials;
 import com.authentication.utils.JwtUtil;
 import com.authentication.utils.Token;
-import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -11,13 +10,19 @@ import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
 
 @Service
-@AllArgsConstructor
 public class AuthService {
 
-    private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
+    private JwtUtil jwtUtil;
+    private AuthenticationManager authenticationManager;
+
+    public AuthService(JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
+        this.jwtUtil = jwtUtil;
+        this.authenticationManager = authenticationManager;
+    }
 
     public Token generateToken(AccountCredentials credentials) {
+        System.out.println("=======================Entrou no service");
+
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
