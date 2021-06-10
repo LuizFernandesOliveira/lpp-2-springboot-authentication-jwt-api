@@ -15,7 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
 @SpringBootTest(classes = Lpp2SpringbootAuthenticationJwtApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AuthControllerTest {
+public class AuthIntegrationTest {
     @LocalServerPort
     private int port;
 
@@ -37,10 +37,11 @@ public class AuthControllerTest {
         String expectMessageResponse = this.mapToJson(messageResponse);
 
         HttpEntity<AccountCredentials> entity = new HttpEntity<AccountCredentials>(credentials, headers);
-        ResponseEntity<String> response = testRestTemplate.exchange(
-                url(URI), HttpMethod.POST, entity, String.class);
-
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(url(URI), HttpMethod.POST, entity, String.class);
+        HttpStatus status = response.getStatusCode();
         String responseInJson = response.getBody();
+        assertThat(status).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(responseInJson).isEqualTo(expectMessageResponse);
     }
 
@@ -51,10 +52,12 @@ public class AuthControllerTest {
                 .password("luiz123").build();
 
         HttpEntity<AccountCredentials> entity = new HttpEntity<AccountCredentials>(credentials, headers);
-        ResponseEntity<String> response = testRestTemplate.exchange(
-                url(URI), HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(url(URI), HttpMethod.POST, entity, String.class);
 
+        HttpStatus status = response.getStatusCode();
         String responseInJson = response.getBody();
+        assertThat(status).isEqualTo(HttpStatus.OK);
         assertThat(responseInJson).contains("token");
     }
 

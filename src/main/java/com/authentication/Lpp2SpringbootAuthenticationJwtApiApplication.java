@@ -18,9 +18,9 @@ public class Lpp2SpringbootAuthenticationJwtApiApplication {
         if (userRepository.count() == 0) {
             userRepository.save(User.builder()
                     .id(1L)
-                    .name("Luiz")
-                    .email("luizfernandesoliveiraoficial@gmail.com")
-                    .password("luiz123").build());
+                    .name("Administrador Geral")
+                    .email("admin@gmail.com")
+                    .password("admin123").build());
         }
     }
 

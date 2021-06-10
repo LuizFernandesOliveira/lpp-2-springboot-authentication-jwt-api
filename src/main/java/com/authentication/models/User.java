@@ -1,6 +1,7 @@
 package com.authentication.models;
 
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -19,7 +20,6 @@ public class User {
     private Long id;
 
     @NotNull(message = "'name' is required")
-    @NotBlank(message = "'name' is invalid")
     private String name;
 
     @NotNull(message = "'email' is required")
