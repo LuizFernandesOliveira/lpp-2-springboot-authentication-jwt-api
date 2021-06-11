@@ -15,15 +15,15 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
 
 <img src="./screenshots/screen2.png" />
 
-- `HTTP/1.1 GET /user`
+- `HTTP/1.1 GET /users`
 
 <img src="./screenshots/screen3.png" />
 
-- `HTTP/1.1 PUT /user`
+- `HTTP/1.1 PUT /users`
 
 <img src="./screenshots/screen4.png" />
 
-- `HTTP/1.1 DELETE /user`
+- `HTTP/1.1 DELETE /users`
 
 <img src="./screenshots/screen5.png" />
 

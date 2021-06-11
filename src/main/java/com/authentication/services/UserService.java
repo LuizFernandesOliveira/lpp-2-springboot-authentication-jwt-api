@@ -1,5 +1,6 @@
 package com.authentication.services;
 
+import com.authentication.exceptions.Message;
 import com.authentication.models.User;
 import com.authentication.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -44,5 +45,11 @@ public class UserService {
         } else {
             throw new NoSuchElementException("user not found");
         }
+    }
+
+    public Message deleteUser() {
+        User user = loggedUser.get();
+        userRepository.delete(user);
+        return new Message("user deleted");
     }
 }

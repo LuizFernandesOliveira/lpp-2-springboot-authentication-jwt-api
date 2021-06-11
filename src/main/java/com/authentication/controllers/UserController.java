@@ -1,6 +1,7 @@
 package com.authentication.controllers;
 
 import com.authentication.dtos.UserDTO;
+import com.authentication.exceptions.Message;
 import com.authentication.models.User;
 import com.authentication.services.UserService;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,14 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userUpdated);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Message> deleteUser() {
+        Message message = userService.deleteUser();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(message);
     }
 
 }

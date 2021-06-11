@@ -201,6 +201,48 @@ public class UserIntegrationTest {
         assertThat(status).isEqualTo(HttpStatus.OK);
     }
 
+    @Test
+    public void testNotDeleteUserWithoutToken_ReturnForbidden() {
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(url(URI_USERS), HttpMethod.DELETE, entity, String.class);
+
+        HttpStatus status = response.getStatusCode();
+        assertThat(status).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    public void testDeleteUserWithToken_ReturnOk() throws JsonProcessingException {
+        User userForCreate = User.builder()
+                .name("Luiz Fernandes de Oliveira")
+                .email("luizfernandesoliveiraoficial2@gmail.com")
+                .password("luiz1234").build();
+
+        AccountCredentials credentials = AccountCredentials.builder()
+                .email(userForCreate.getEmail())
+                .password(userForCreate.getPassword()).build();
+
+        HttpEntity<User> entityCreate = new HttpEntity<User>(userForCreate, headers);
+        testRestTemplate.exchange(url(URI_USERS), HttpMethod.POST, entityCreate, String.class);
+
+        HttpEntity<AccountCredentials> entityToken = new HttpEntity<AccountCredentials>(credentials, headers);
+        ResponseEntity<String> responseToken = testRestTemplate
+                .exchange(url(URI_TOKEN), HttpMethod.POST, entityToken, String.class);
+
+        Token token = mapToToken(responseToken.getBody());
+
+        headers.add("Authorization", "Bearer " + token.getToken());
+
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(url(URI_USERS), HttpMethod.DELETE, entity, String.class);
+
+        String responseBody = response.getBody();
+        HttpStatus status = response.getStatusCode();
+        assertThat(responseBody).contains("user deleted");
+        assertThat(status).isEqualTo(HttpStatus.OK);
+    }
+
     private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
