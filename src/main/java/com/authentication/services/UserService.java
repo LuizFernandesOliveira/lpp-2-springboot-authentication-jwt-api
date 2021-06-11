@@ -3,8 +3,6 @@ package com.authentication.services;
 import com.authentication.models.User;
 import com.authentication.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -33,6 +31,16 @@ public class UserService {
         User user = loggedUser.get();
         if (user != null) {
             return user;
+        } else {
+            throw new NoSuchElementException("user not found");
+        }
+    }
+
+    public User updateUser(User user) {
+        User userForUpdate = loggedUser.get();
+        if (user != null) {
+            userForUpdate.setName(user.getName());
+            return userRepository.save(userForUpdate);
         } else {
             throw new NoSuchElementException("user not found");
         }

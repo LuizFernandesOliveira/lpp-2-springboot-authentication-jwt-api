@@ -34,4 +34,12 @@ public class UserController {
                 .body(user);
     }
 
+    @PutMapping
+    public ResponseEntity<UserDTO> updateUser(@RequestBody User user) {
+        UserDTO userUpdated = UserDTO.mapToDTO(userService.updateUser(user));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userUpdated);
+    }
+
 }

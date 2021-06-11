@@ -166,6 +166,41 @@ public class UserIntegrationTest {
         assertThat(status).isEqualTo(HttpStatus.OK);
     }
 
+    @Test
+    public void testNotUpdateUserWithoutToken_ReturnForbidden() {
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(url(URI_USERS), HttpMethod.PUT, entity, String.class);
+
+        HttpStatus status = response.getStatusCode();
+        assertThat(status).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    public void testUpdateUserWithToken_ReturnOk() throws JsonProcessingException {
+        AccountCredentials credentials = AccountCredentials.builder()
+                .email("admin@gmail.com")
+                .password("admin123").build();
+
+        HttpEntity<AccountCredentials> entityToken = new HttpEntity<AccountCredentials>(credentials, headers);
+        ResponseEntity<String> responseToken = testRestTemplate
+                .exchange(url(URI_TOKEN), HttpMethod.POST, entityToken, String.class);
+        String body = responseToken.getBody();
+        Token token = mapToToken(body);
+
+        User userForUpdate = User.builder()
+                .name("Luiz Fernandes de Oliveira").build();
+
+        headers.add("Authorization", "Bearer " + token.getToken());
+
+        HttpEntity<User> entity = new HttpEntity<User>(userForUpdate, headers);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(url(URI_USERS), HttpMethod.PUT, entity, String.class);
+
+        HttpStatus status = response.getStatusCode();
+        assertThat(status).isEqualTo(HttpStatus.OK);
+    }
+
     private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
