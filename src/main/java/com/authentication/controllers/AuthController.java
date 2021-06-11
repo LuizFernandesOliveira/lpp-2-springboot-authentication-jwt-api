@@ -21,7 +21,6 @@ public class AuthController {
     @PostMapping(path = "/token")
     public ResponseEntity<Token> generateToken(@RequestBody AccountCredentials credentials) {
         Token token = authService.generateToken(credentials);
-        System.out.println("TOKEN: " + token);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(token);

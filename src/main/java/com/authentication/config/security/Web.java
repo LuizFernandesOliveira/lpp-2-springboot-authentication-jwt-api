@@ -45,7 +45,7 @@ public class Web extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers("/token").permitAll()
+                .antMatchers(HttpMethod.POST, "/token").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
