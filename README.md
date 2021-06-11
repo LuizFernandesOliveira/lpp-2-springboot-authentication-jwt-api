@@ -29,3 +29,25 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
 
 
 ### Starting
+
+- **Instalando dependências**
+
+  Para instalar as dependências basta rodar o seguinte comando:
+  ```shellscript
+  ./mvnw package
+  ```
+
+- **Inicializando Aplicação**
+
+  Para inicializar a aplicação basta rodar o seguinte comando:
+  ```shellscript
+  ./mvnw spring-boot:run
+  ```
+
+
+- **Testando aplicação**
+
+  Para inicializar os tests basta rodar o seguinte comando no terminal:
+  ```shellscript
+  ./mvnw test
+  ```
